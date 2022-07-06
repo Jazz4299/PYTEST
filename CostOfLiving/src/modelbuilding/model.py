@@ -6,16 +6,17 @@ import matplotlib.pyplot as plt
 
 class ModelBuilding:
 
-    def __init__(self, df):
+    def __init__(self, df, X_train=None, X_test=None,
+    y_train=None, y_test=None):
         self.data = df
-        self.X_train = None
-        self.X_test = None
-        self.y_train = None
-        self.y_test = None
+        self.X_train = X_train
+        self.X_test = X_test
+        self.y_train = y_train
+        self.y_test = y_test
+        self.y_pred = None
         self.split()
         self.train()
         self.predict()
-        self.visualize()
 
     def split(self):
         X = self.data[['City', 'Cost of Living Index', 'Rent Index',
@@ -36,12 +37,11 @@ class ModelBuilding:
         mse = mean_squared_error(self.y_test, self.y_pred)
         print(mse)
 
-    def visualize(self):
+    def visualize(self, path):
         fig, ax = plt.subplots()
         x_ax = range(len(self.y_test))
         plt.plot(x_ax, self.y_test, label="original")
         plt.plot(x_ax, self.y_pred, label="predicted")
         plt.title("test and predicted data")
         plt.legend()
-        plt.savefig("data/comparison.png")
-        plt.show()
+        plt.savefig(path)
