@@ -2,11 +2,12 @@ import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score, KFold
 from sklearn.metrics import mean_squared_error
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
+from src.preprocessing.plots import Plot 
 
 class ModelBuilding:
 
-    def __init__(self, df, X_train=None, X_test=None,
+    def __init__(self, df, path=None, X_train=None, X_test=None,
     y_train=None, y_test=None):
         self.data = df
         self.X_train = X_train
@@ -14,9 +15,11 @@ class ModelBuilding:
         self.y_train = y_train
         self.y_test = y_test
         self.y_pred = None
+        Plot(df, path=path)
         self.split()
         self.train()
         self.predict()
+
 
     def split(self):
         X = self.data[['City', 'Cost of Living Index', 'Rent Index',
